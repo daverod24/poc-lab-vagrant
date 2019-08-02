@@ -1,0 +1,36 @@
+- hosts: all 
+  connection: local
+  gather_facts: yes
+  become: yes
+  vars:
+    current_dir: "/etc/sudoers.d/"
+    backup_dir: "~/tmp" 
+    group-id: "GAPTEST"
+    user-id: "APNTEST"
+
+
+  tasks:
+
+          #  - name: Change file visudo ownership, group and permissions
+          #    file:
+          #      path: "/etc/sudoers.d/001-GAPNCPRO"
+          #      owner: root
+          #      group: root
+          #      mode: '0640'
+          #      state: touch
+
+
+# Validate the sudoers file before saving
+  - name: Configure visudo file and validate 
+    lineinfile:
+            #path: "/etc/sudoers.d/001-{{group-id}}"
+      path: "/etc/sudoers"
+      state: present
+      #  create: yes
+      regexp: '^%{{group-id}} ALL ='
+      line: "%{{group-id}} ALL = NOPASSWD:ALL #Defaults    requiretty"
+      insertafter: EOF
+      validate: "/usr/sbin/visudo -cf %s"
+    register: "visudotest"
+ 
+  - debug: var=visudotest
