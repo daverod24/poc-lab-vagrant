@@ -1,0 +1,9 @@
+.DS_Store
+.vagrant
+*/**.DS_Store
+._*
+.*.sw*
+*~
+.idea/
+.vscode/
+*.retry

@@ -5,30 +5,59 @@
   vars:
     current_dir: "/etc/sudoers.d/"
     backup_dir: "~/tmp" 
-    group-id: "GAPTEST"
-    user-id: "APNTEST"
+    group-id: "GAPNCPRO"
+    user-id: "APNCPRO"
+    user_groups: [GAPNCPRO,GAPNCDES]
+    user_name: "APNCDES"
+    user_shell: "/bin/bash"
+    user_generate_ssh_key: False
+    user_local_ssh_key_path: "~/.ssh/id_rsa.pub"
+    user_enable_passwordless_sudo: True
 
 
   tasks:
 
-          #  - name: Change file visudo ownership, group and permissions
-          #    file:
-          #      path: "/etc/sudoers.d/001-GAPNCPRO"
-          #      owner: root
-          #      group: root
-          #      mode: '0640'
-          #      state: touch
+  # - name: Change file visudo ownership, group and permissions
+  #   file:
+  #     path: "/etc/sudoers.d/001-GAPNCPRO"
+  #     owner: root
+  #     group: root
+  #     mode: '0640'
+  #     state: touch
+
+
+  - name: "Create user group(s)"
+    group:
+      name: "{{ item }}"
+    gid: 1014
+    state: present  
+    loop: "{{ user_groups }}"
+    when: user_groups
+  
+  - name: "Create user"
+    user:
+      name: "{{ user_name }}"
+      groups: "{{ (user_groups | join(',')) }}"
+      generate_ssh_key: "{{ user_generate_ssh_key }}"
+      uid: 1002
+      expires: -1
+      shell: "{{ user_shell }}"
+  
+  - name: "Set authorized_key to allow SSH key based logins"
+    authorized_key:
+      user: "{{ user_name }}"
+      key: "{{ lookup('file', user_local_ssh_key_path) }}"
+    when: user_local_ssh_key_path | default(False)
 
 
 # Validate the sudoers file before saving
   - name: Configure visudo file and validate 
     lineinfile:
-            #path: "/etc/sudoers.d/001-{{group-id}}"
-      path: "/etc/sudoers"
+      path: "/etc/sudoers.d/001-{{ group-id }}"
       state: present
-      #  create: yes
-      regexp: '^%{{group-id}} ALL ='
-      line: "%{{group-id}} ALL = NOPASSWD:ALL #Defaults    requiretty"
+      create: yes
+      regexp: '^%{{ group-id }} ALL ='
+      line: "%{{ group-id }} ALL = NOPASSWD:ALL #Defaults    requiretty"
       insertafter: EOF
       validate: "/usr/sbin/visudo -cf %s"
     register: "visudotest"
