@@ -30,12 +30,14 @@ Vagrant.configure(2) do |config|
       end # end config
       config.vm.provision "ansible_local" do |ansible|
 
-#        ansible.galaxy_roles_path = "provision/playbook.yml"
 #        ansible.inventory_path = "/vagrant/inventory"
         ansible.galaxy_roles_path = "/vagrant/provision/roles"        
-        
+        ansible.galaxy_role_file = "requirements.yml"
+#        ansible.galaxy_command = "sudo ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path} --force"
+        ansible.galaxy_command = "sudo ansible-galaxy install -r requirements.yml -p ./provision/roles"        
         ansible.playbook = "provision/playbook.yml"
-        ansible.verbose = true
+#        ansible.verbose = true
+        ansible.verbose = "vv"
   
       end # end provision ansible 
     end # end vms

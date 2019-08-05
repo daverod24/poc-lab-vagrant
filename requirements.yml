@@ -1,4 +1,4 @@
 ---
-- src: daverod24.role_user_sudo
+- src: daverod24.usersudo
 # - src: daverod24.docker
 # - src: daverod24.kubernetes

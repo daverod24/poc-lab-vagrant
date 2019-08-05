@@ -5,4 +5,4 @@
   gather_facts: true
   hosts: all
   roles: 
-    - daverod24.role_user_sudo
+    - daverod24.usersudo
