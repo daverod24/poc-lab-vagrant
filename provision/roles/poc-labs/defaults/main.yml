@@ -1,0 +1,6 @@
+---
+# defaults file for provision/roles/poc-labs
+hello_web:
+  docroot: /var/www/html
+  package: apache2
+  service: apache2
