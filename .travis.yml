@@ -17,13 +17,16 @@ install:
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - ls -la
+  # - cd ../
+  # - ls -la
   # - mv -v role-$ROLE_NAME daverod24.$ROLE_NAME
   # - cd daverod24.$ROLE_NAME
-  - cd $ROLE_NAME
+  - pwd
+  - cat .gitignore
+  - cat provision/playbook.yml
 
 script:
+  - ls -la
   # Run tests.
   - molecule test
 
