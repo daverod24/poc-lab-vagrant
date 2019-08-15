@@ -1,4 +1,5 @@
 # poc-lab-vagrant
+[![Build Status](https://travis-ci.org/daverod24/poc-lab-vagrant.svg?branch=master)](https://travis-ci.org/daverod24/poc-lab-vagrant)
 
 In this laboratory I am testing the execution of an ansible playbook that allows me to create an attribute in /etc/sudoers.d/ so that a user has sudo
 
