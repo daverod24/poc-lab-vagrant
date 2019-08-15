@@ -22,8 +22,7 @@ before_script:
   # - mv -v role-$ROLE_NAME daverod24.$ROLE_NAME
   # - cd daverod24.$ROLE_NAME
   - pwd
-  - cat .gitignore
-  - cat provision/playbook.yml
+  - cd provision/$ROLE_NAME
 
 script:
   - ls -la
