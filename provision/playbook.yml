@@ -1,8 +1,8 @@
---- 
-- 
+---
+-
   become: true
   connection: local
   gather_facts: true
   hosts: all
-  roles: 
+  roles:
     - daverod24.usersudo
